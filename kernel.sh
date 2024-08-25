@@ -214,9 +214,15 @@ build_kernel || error=true
 DATE=$(date +"%Y%m%d-%H%M%S")
 KERVER=$(make kernelversion)
 
+if [ "$DEVICE_TYPE" == courbet  ]; then
 export IMG="$PWD"/out/arch/arm64/boot/Image.gz
+else
+export IMG="$PWD"/out/arch/arm64/boot/Image.gz-dtb
+fi
 export dtbo="$PWD"/out/arch/arm64/boot/dtbo.img
-export dtb="$PWD"/out/arch/arm64/boot/dtb.img
+if [ "$DEVICE_TYPE" == courbet  ]; then
+export dtb="$PWD"/out/arch/arm64/boot/dtb.img 
+fi
 
         if [ -f "$IMG" ]; then
                 echo -e "$green << Build completed in $(($Diff / 60)) minutes and $(($Diff % 60)) seconds >> \n $white"
@@ -238,7 +244,9 @@ export dtb="$PWD"/out/arch/arm64/boot/dtb.img
                 echo -e "$yellow << making kernel zip >> \n $white"
                 cp -r "$IMG" zip/
                 cp -r "$dtbo" zip/
+		if [ "$DEVICE_TYPE" == courbet  ]; then
                 cp -r "$dtb" zip/
+                fi
                 cd zip
                 export ZIP="$KERNEL_NAME"-"$KRNL_REL_TAG"-"$CODENAME"
                 zip -r9 "$ZIP" * -x .git README.md LICENSE *placeholder
