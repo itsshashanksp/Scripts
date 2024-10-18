@@ -214,7 +214,7 @@ build_kernel || error=true
 DATE=$(date +"%Y%m%d-%H%M%S")
 KERVER=$(make kernelversion)
 
-export IMG="$PWD"/out/arch/arm64/boot/Image.gz-dtb
+export IMG="$PWD"/out/arch/arm64/boot/Image.gz
 export dtbo="$PWD"/out/arch/arm64/boot/dtbo.img
 export dtb="$PWD"/out/arch/arm64/boot/dtb.img 
 
